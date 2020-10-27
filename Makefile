@@ -1,14 +1,10 @@
-default: out
-
-deps:
-	jb install
+default: vendor grpc-metrics/grpc-metrics.json
 
 clean:
 	rm -rf vendor
-	rm -rf out
 
-out: out/grpc-metrics-grafana.json
+vendor: jsonnetfile.json
+	jb install
 
-out/grpc-metrics-grafana.json: gen/* grafana/*
-	mkdir -p out/
-	jsonnet -J vendor -m out gen/grpc-metrics-grafana.jsonnet 
+grpc-metrics/grpc-metrics.json: grpc-metrics/grpc-metrics.jsonnet grafana/*
+	jsonnet -J vendor -m grpc-metrics grpc-metrics/grpc-metrics.jsonnet
