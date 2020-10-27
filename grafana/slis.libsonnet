@@ -38,7 +38,7 @@ local graphPanel = grafana.graphPanel;
     format='percentunit',
   ).addTarget(prometheus.target(
     (
-      'sum(rate(grpc_server_handled_total{grpc_code="Unavailable",%s}[5m])) by (grpc_service, grpc_method) / ' +
+      'sum(rate(grpc_server_handled_total{grpc_code="Unavailable",grpc_code="Unknown",%s}[5m])) by (grpc_service, grpc_method) / ' +
       'sum(rate(grpc_server_handled_total{%s}[5m])) by (grpc_service, grpc_method)'
     ) % [
       selector,
@@ -51,7 +51,7 @@ local graphPanel = grafana.graphPanel;
    */
   requestDuration(
     selector,
-    percentile=0.99,
+    percentile=0.95,
     datasource='$datasource',
     span=4,
   ):: graphPanel.new(
