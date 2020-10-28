@@ -39,6 +39,11 @@ local server = import './server.libsonnet';
     ))
     .addRow(
       row.new()
+      .addPanel(client.errorRate(selector=selector))
+      .addPanel(server.errorRate(selector=selector))
+    )
+    .addRow(
+      row.new()
       .addPanel(client.startRate(selector=selector))
       .addPanel(client.completionRate(selector=selector))
     )

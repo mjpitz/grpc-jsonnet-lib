@@ -4,10 +4,31 @@ local singlestat = grafana.singlestat;
 local graphPanel = grafana.graphPanel;
 
 {
+  errorRate(
+    selector,
+    datasource='$datasource',
+    span=6,
+  ):: graphPanel.new(
+    'Server Call Error Rate',
+    datasource=datasource,
+    span=span,
+    format='call/s',
+    min=0,
+  ).addTarget(prometheus.target(
+    (
+      '( sum(rate(grpc_server_handled_total{grpc_code="Unavailable",%s}[5m])) by (grpc_service, grpc_method, instance) +' +
+      '  sum(rate(grpc_server_handled_total{grpc_code="Unknown",%s}[5m])) by (grpc_service, grpc_method, instance) ) / ' +
+      'sum(rate(grpc_server_handled_total{%s}[5m])) by (grpc_service, grpc_method, instance)'
+    ) % [
+      selector, selector, selector,
+    ],
+  )),
+
   startRate(
     selector,
     datasource='$datasource',
     span=6,
+    min=0,
   ):: graphPanel.new(
     'Server Call Start Rate',
     datasource=datasource,
@@ -23,6 +44,7 @@ local graphPanel = grafana.graphPanel;
     selector,
     datasource='$datasource',
     span=6,
+    min=0,
   ):: graphPanel.new(
     'Server Call Completion Rate',
     datasource=datasource,
@@ -38,6 +60,7 @@ local graphPanel = grafana.graphPanel;
     selector,
     datasource='$datasource',
     span=6,
+    min=0,
   ):: graphPanel.new(
     'Server Message Receive Rate',
     datasource=datasource,
@@ -53,6 +76,7 @@ local graphPanel = grafana.graphPanel;
     selector,
     datasource='$datasource',
     span=6,
+    min=0,
   ):: graphPanel.new(
     'Server Message Send Rate',
     datasource=datasource,
