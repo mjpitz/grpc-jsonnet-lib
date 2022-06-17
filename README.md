@@ -1,5 +1,7 @@
 # grpc-jsonnet-lib
 
+_**DEPRECATED:** I am no longer maintaining this component and have collapsed it under my monorepo [here](https://github.com/mjpitz/mjpitz/tree/main/monitoring/grpc)._
+
 A jsonnet library for writing gRPC dashboards as code.
 For now, my focus is on the Grafana and Prometheus ecosystem.
 I tried to leave room for Datadog.
